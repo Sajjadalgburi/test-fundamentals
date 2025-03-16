@@ -25,4 +25,8 @@ describe('multiply', () => {
   });
 });
 
-describe.todo('divide', () => {});
+describe('divide', () => {
+  it('should divide two numbers together', () => {
+    expect(divide(3, 2)).toBe(1.5);
+  });
+});
