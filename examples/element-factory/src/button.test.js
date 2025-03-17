@@ -1,4 +1,5 @@
 import { createButton } from './button.js';
+import { screen, fireEvent } from '@testing-library/dom';
 
 describe('createButton', () => {
   let button;
@@ -7,17 +8,25 @@ describe('createButton', () => {
     button = createButton();
   });
 
-  it('should create a button element', () => {
-    expect(button).toBeInstanceOf(HTMLButtonElement);
+  afterEach(() => {
+    document.body.innerHTML = '';
   });
 
-  it('should have the text "Click Me"', () => {
-    expect(button.textContent).toBe('Click Me');
+  it('should create a button element', () => {
+    document.body.appendChild(button);
+
+    const buttonInDOM = screen.getByRole('button', { name: 'Click Me' });
+
+    expect(buttonInDOM).toBeInTheDocument();
   });
 
   it('should change the text to "Clicked!" when clicked', async () => {
-    button.click();
+    document.body.appendChild(button);
 
-    expect(button.textContent).toBe('Clicked!');
+    const buttonInDOM = screen.getByRole('button', { name: 'Click Me' });
+
+    fireEvent(buttonInDOM, new MouseEvent('click'));
+
+    expect(buttonInDOM.textContent).toBe('Clicked!');
   });
 });
