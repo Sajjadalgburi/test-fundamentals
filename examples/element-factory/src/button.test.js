@@ -1,9 +1,23 @@
 import { createButton } from './button.js';
 
-describe.todo('createButton', () => {
-  it('should create a button element', () => {});
+describe('createButton', () => {
+  let button;
 
-  it('should have the text "Click Me"', () => {});
+  beforeEach(() => {
+    button = createButton();
+  });
 
-  it('should change the text to "Clicked!" when clicked', async () => {});
+  it('should create a button element', () => {
+    expect(button).toBeInstanceOf(HTMLButtonElement);
+  });
+
+  it('should have the text "Click Me"', () => {
+    expect(button.textContent).toBe('Click Me');
+  });
+
+  it('should change the text to "Clicked!" when clicked', async () => {
+    button.click();
+
+    expect(button.textContent).toBe('Clicked!');
+  });
 });
