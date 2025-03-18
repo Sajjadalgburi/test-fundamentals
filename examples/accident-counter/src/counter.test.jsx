@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Counter } from './counter';
 
@@ -61,7 +61,6 @@ describe('Counter ', () => {
     await userEvent.click(incrementButton);
     await userEvent.click(incrementButton); // 2 is displayed
     await userEvent.click(decrementButton); // 1 is displayed
-
     expect(counter).toHaveTextContent('1');
   });
 
@@ -98,5 +97,20 @@ describe('Counter ', () => {
     () => {},
   );
 
-  it.todo('updates the document title based on the count', async () => {});
+  it('updates the document title based on the count', async () => {
+    const incrementButton = screen.getByRole('button', {
+      name: /increment/i,
+    });
+    const decrementButton = screen.getByRole('button', {
+      name: /decrement/i,
+    });
+
+    await act(async () => {
+      await userEvent.click(incrementButton);
+      await userEvent.click(incrementButton);
+      await userEvent.click(incrementButton);
+    });
+
+    expect(document.title).toEqual(expect.stringContaining('3 days'));
+  });
 });
