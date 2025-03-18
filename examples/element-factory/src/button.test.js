@@ -1,5 +1,6 @@
 import { createButton } from './button.js';
 import { screen, fireEvent } from '@testing-library/dom';
+import { userEvent } from '@testing-library/user-event';
 
 describe('createButton', () => {
   let button;
@@ -25,7 +26,7 @@ describe('createButton', () => {
 
     const buttonInDOM = screen.getByRole('button', { name: 'Click Me' });
 
-    fireEvent(buttonInDOM, new MouseEvent('click'));
+    await userEvent.click(buttonInDOM);
 
     expect(buttonInDOM.textContent).toBe('Clicked!');
   });
