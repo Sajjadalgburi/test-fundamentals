@@ -3,21 +3,29 @@ import { log } from './log';
 
 describe('logger', () => {
   describe('development', () => {
-    beforeEach(() => {
-      vi.stubEnv('MODE', 'development');
-    });
-
-    afterEach(() => {
-      vi.resetAllMocks();
-    });
-
     it('logs to the console in development mode', () => {
       const logSpy = vi.spyOn(console, 'log');
 
-      log('Hello');
+      log('Hello', {
+        mode: 'development',
+        callback: logSpy,
+      });
 
       expect(logSpy).toHaveBeenCalledOnce();
       expect(logSpy).toHaveBeenCalledWith('Hello');
+    });
+  });
+
+  describe('production', () => {
+    it('it shoud NOT console log in production mode', () => {
+      const logSpy = vi.spyOn(console, 'log');
+
+      log('Hello', {
+        mode: 'production',
+        callback: logSpy,
+      });
+
+      expect(logSpy).not.toHaveBeenCalled();
     });
   });
 });
