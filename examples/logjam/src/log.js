@@ -6,11 +6,18 @@ import { sendToServer } from './send-to-server';
  * Log a message to the console in development mode or send it to the server in production mode.
  * @param  {string} message
  */
-export function log(message) {
-  if (import.meta.env.MODE !== 'production') {
+export function log(
+  message,
+  options = {
+    mode: (mode = import.meta.env.MODE),
+    callback: (productionCallback = (level, message) =>
+      sendToServer(level, message)),
+  },
+) {
+  if (options.mode !== 'production') {
     console.log(message);
   } else {
-    sendToServer('info', message);
+    options.callback('info', message);
   }
 }
 
